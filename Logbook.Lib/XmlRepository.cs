@@ -25,10 +25,7 @@ namespace Logbook.Lib
 
         public bool Add(Entry entry)
         {
-                var data = from entry in this._rootElement.Descendants("entry")
-                           where entry.Value != null == new XElement()
-
-
+            throw new NotImplementedException();
         }
 
         public bool Delete(Entry entry)
