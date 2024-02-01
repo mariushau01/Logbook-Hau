@@ -3,40 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Logbook.Lib
 {
     public class MemoryRepository : IRepository
     {
+        List<Entry> list = new List<Entry>();
+
         public bool Add(Entry entry)
         {
-            throw new NotImplementedException();
+            list.Add(entry);
+            return true;
         }
 
         public bool Delete(Entry entry)
         {
-            throw new NotImplementedException();
+            return list.Remove(entry);
         }
 
         public List<Entry> GetAll()
         {
-            List<Entry> list = new List<Entry>()
-            {
-                new Entry(DateTime.Now, DateTime.Now, 10000, 10100, "ZE-1234","Zell am See","Salzburg"),
-                new Entry(DateTime.Now, DateTime.Now, 10100, 10200, "ZE-1234","Zell am See","Salzburg")
-            };
             return list;
-
         }
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool Update(Entry entry)
         {
-            throw new NotImplementedException();
+            var item = (from search in list
+                       where entry.Id == search.Id
+                       select search).FirstOrDefault();
+            if (item != null)
+            {
+                item = entry;
+                return true;
+            }
+            
+            return false;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +25,10 @@ namespace Logbook.Lib
 
         public bool Add(Entry entry)
         {
-            throw new NotImplementedException();
+                var data = from entry in this._rootElement.Descendants("entry")
+                           where entry.Value != null == new XElement()
+
+
         }
 
         public bool Delete(Entry entry)
@@ -41,6 +44,8 @@ namespace Logbook.Lib
             // TODO:
             // - Object erstellen
             // - Liste zurückgeben
+            throw new NotImplementedException();
+            //return entries.ToList();
         }
 
         public bool Save()
