@@ -12,7 +12,7 @@ repository.Add(new Entry(DateTime.Now,
                          "Zell am See",
                          "München"));
 
-Entry entrySaalfelden = new Entry(DateTime.Now.AddDays(3),
+Entry entrySaalfelden = new(DateTime.Now.AddDays(3),
                                   DateTime.Now.AddDays(3).AddMinutes(20),
                                   25500,
                                   25514,
