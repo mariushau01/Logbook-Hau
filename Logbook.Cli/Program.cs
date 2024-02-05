@@ -2,7 +2,9 @@
 
 Console.WriteLine("Willkommen beim Fahrtenbuch");
 
-IRepository repository = new MemoryRepository();
+string path = "logbook.xml";
+
+IRepository repository = new XmlRepository(path);
 
 repository.Add(new Entry(DateTime.Now,
                          DateTime.Now.AddHours(2).AddMinutes(22),
