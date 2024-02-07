@@ -75,13 +75,22 @@ namespace Logbook.Lib
         public List<Entry> GetAll()
         {
             var entries = from entry in this._rootElement.Descendants("entry")
-                          select entry;
+                          select new Entry(
+                              Convert.ToDateTime(entry.Attribute("start")?.Value),
+                              Convert.ToDateTime(entry.Attribute("end")?.Value),
+                              entry.Attribute("startkm") != null ? (int)entry.Attribute("startkm") : 0,
+                              entry.Attribute("endkm") != null ? (int)entry.Attribute("endkm") : 0,
+                              entry.Attribute("numberplate")?.Value,
+                              entry.Attribute("from")?.Value,
+                              entry.Attribute("to")?.Value,
+                              entry.Attribute("id")?.Value
 
-            // TODO:
-            // - Object erstellen
-            // - Liste zurückgeben
-            throw new NotImplementedException();
-            //return entries.ToList();
+                          )
+                          {
+                              Description = entry.Value,
+                          };
+
+            return entries.ToList<Entry>();
         }
 
         public bool Save()
@@ -94,13 +103,33 @@ namespace Logbook.Lib
             catch( Exception ex)
             {
                 return false;
+
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
 
         public bool Update(Entry entry)
         {
-            throw new NotImplementedException();
+            var item = (from e in _rootElement.Descendants("entry")
+                           where (string)e.Attribute("id") == entry.Id
+                           select e).FirstOrDefault();
+
+            if (item != null)
+            {
+                item.SetAttributeValue("start", entry.Start.ToString());
+                item.SetAttributeValue("end", entry.End.ToString());
+                item.SetAttributeValue("startkm", entry.StartKM.ToString());
+                item.SetAttributeValue("endkm", entry.EndKM.ToString());
+                item.SetAttributeValue("numberplate", entry.NumberPlate.ToString());
+                item.SetAttributeValue("to", entry.To.ToString());
+                item.SetAttributeValue("from", entry.From.ToString());
+
+                return this.Save();
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
