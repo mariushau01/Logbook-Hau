@@ -72,6 +72,29 @@ namespace Logbook.Lib
             return this.Save();
         }
 
+        public Entry? find(string id)
+        {
+
+            var item = (from entry in _rootElement.Descendants("entry")
+                        where (string)entry.Attribute("id") == id
+                        select  new Entry(
+                              Convert.ToDateTime(entry.Attribute("start")?.Value),
+                              Convert.ToDateTime(entry.Attribute("end")?.Value),
+                              entry.Attribute("startkm") != null ? (int)entry.Attribute("startkm") : 0,
+                              entry.Attribute("endkm") != null ? (int)entry.Attribute("endkm") : 0,
+                              entry.Attribute("numberplate")?.Value,
+                              entry.Attribute("from")?.Value,
+                              entry.Attribute("to")?.Value,
+                              entry.Attribute("id")?.Value
+
+                          )
+                          {
+                              Description = entry.Value,
+                          }).FirstOrDefault();
+
+            return item;
+        }
+
         public List<Entry> GetAll()
         {
             var entries = from entry in this._rootElement.Descendants("entry")
