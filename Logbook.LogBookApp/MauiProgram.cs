@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Logbook.LogBookApp.ViewModel;
+using Microsoft.Extensions.Logging;
 
 namespace Logbook.LogBookApp
 {
@@ -15,7 +16,8 @@ namespace Logbook.LogBookApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.Services.AddSingleton
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<MainViewModel>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
