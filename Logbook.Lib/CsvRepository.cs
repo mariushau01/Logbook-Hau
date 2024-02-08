@@ -22,6 +22,11 @@ namespace Logbook.Lib
             throw new NotImplementedException();
         }
 
+        public Entry? find(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Entry> GetAll()
         {
             throw new NotImplementedException();
