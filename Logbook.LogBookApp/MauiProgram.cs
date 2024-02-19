@@ -1,4 +1,5 @@
-﻿using Logbook.Lib;
+﻿using CommunityToolkit.Maui;
+using Logbook.Lib;
 using Logbook.LogBookApp.ViewModel;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +12,7 @@ namespace Logbook.LogBookApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
