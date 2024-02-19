@@ -12,6 +12,7 @@ namespace Logbook.LogBookApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                // MauiCommunityToolkit verwenden
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
