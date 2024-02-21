@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Logbook.Lib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,31 @@ namespace Logbook.LogBookApp.ViewModel
 
         IRepository _repository = repository;
 
-}
+        // nichts anderes wie eine Liste, mit einem zusätzlichen Feature, welches die Oberfläche informiert
+        [ObservableProperty]
+        ObservableCollection<Lib.Entry> _entries = [];
+
+        [RelayCommand]
+        void LoadData()
+        {
+            try
+            {
+                var entries = _repository.GetAll();
+
+                if (entries != null)
+                {
+                    foreach (var entry in entries)
+                    {
+                        Entries.Add(entry);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+        }
     }
 }
