@@ -28,7 +28,7 @@
                 <Label Grid.Column="2" Text="{Binding From}" Padding="5" FontAttributes="Bold"  FontSize="Caption"/>
                 <Label Grid.Column="3" Text="{Binding To}" Padding="5" FontAttributes="Bold"  FontSize="Caption"/>
             </Grid>
-            
+             
             <!-- Data -->
             <CollectionView Grid.Row="1" ItemsSource="{Binding Entries}">
                 <CollectionView.EmptyView>
