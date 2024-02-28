@@ -4,44 +4,110 @@
              x:Class="Logbook.LogBookApp.MainPage"
              Shell.NavBarIsVisible="True"
              xmlns:viewmodels="clr-namespace:Logbook.LogBookApp.ViewModel"
-             x:DataType="viewmodels:MainViewModel"
+             xmlns:model="clr-namespace:Logbook.Lib;assembly=Logbook.Lib"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
-                                        Command="{Binding LoadDataCommand}"/>
+                                        Command="{Binding LoadDataCommand}" />
     </ContentPage.Behaviors>
 
-    <!-- erstes Grid (Hauptgrid) -->
-    <Grid RowDefinitions="180">
-
-         <!-- erste Zeile im Hauptgrid-->
+    <ScrollView> 
+    <!-- erstes Grid Hauptgrid-->
+    <Grid RowDefinitions="180,Auto, Auto" Margin="10">
         <!--
-        <Label Text="{Binding Header}" FontSize="Subtitle"/>
-        -->
-
-        <Grid Grid.Row="0" Grid.Column="0" RowDefinitions="Auto,*" Margin="10">
-            <!-- Header -->
-            <Grid ColumnDefinitions="100,2*,*,*" Grid.Row="0">
-                <Label Text="Datum" Padding="5"/>
-                <Label Grid.Column="1" Text="{Binding Description}" Padding="5" FontAttributes="Bold"  FontSize="Caption"/>
-                <Label Grid.Column="2" Text="{Binding From}" Padding="5" FontAttributes="Bold"  FontSize="Caption"/>
-                <Label Grid.Column="3" Text="{Binding To}" Padding="5" FontAttributes="Bold"  FontSize="Caption"/>
+<Label Text="{Binding Header}" FontSize="Subtitle"/>
+         -->
+        <!--Erste Zeile im Hauptgrid-->
+        <Grid RowDefinitions="Auto,*" Grid.Row="0">
+            <!-- Header-->
+            <Grid ColumnDefinitions="100,2*,*,*">
+                <Label FontSize="Caption" FontAttributes="Bold" Text="Datum" Padding="5"/>
+                <Label FontSize="Caption" FontAttributes="Bold" Grid.Column="1" Text="Beschreibung" Padding="5"/>
+                <Label FontSize="Caption" FontAttributes="Bold" Grid.Column="2" Text="Von" Padding="5"/>
+                <Label FontSize="Caption" FontAttributes="Bold" Grid.Column="3" Text="Nach" Padding="5"/>
             </Grid>
-             
-            <!-- Data -->
+            <!-- Data-->
             <CollectionView Grid.Row="1" ItemsSource="{Binding Entries}">
                 <CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:Entry">
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                    <Label Text="Es wurde keine Fahrt hinzugefügt." Padding="10"/>
+                    <Label Padding="10" Text="Es wurd keine Fahrt Hinzugefütgt"/>
                 </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Entry">
+                        <Grid ColumnDefinitions="100,2*,*,*">
+                            <Label  Text="{Binding Start, StringFormat='{0:yyyy-MM-dd}'}" Padding="5"/>
+                            <Label  Grid.Column="1" Text="{Binding Description}" Padding="5"/>
+                            <Label  Grid.Column="2" Text="{Binding From}" Padding="5"/>
+                            <Label  Grid.Column="3" Text="{Binding To}" Padding="5"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
 
-        <Button Grid.Row="1" Text="add Demo"></Button>
+            <Button Grid.Row="1" Text="Add Demo" Command="{Binding AddCommand}"/>
+            <!-- Eingabe -->
+        <Grid Padding="10" ColumnSpacing="10" ColumnDefinitions="*,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" RowSpacing="20" Grid.Row="2">
+            <!-- header 0/0, span: 2-->
+            <Label Text="Fahrt hinzufügen" FontSize="Subtitle"
+                   SemanticProperties.HeadingLevel="Level2" Grid.ColumnSpan="2" />
+            <!-- Start 1/0-->
+            <StackLayout Grid.Row="1">
+                <Label Text="Start"/>
+                <DatePicker Date="{Binding Start}" Format="yyyy-MM-dd"/>
+            </StackLayout>
+  
+            <!-- Start 1/1 -->
+            <StackLayout Grid.Row="1" Grid.Column="1">
+                <Label Text="Ende"/>
+                <DatePicker Date="{Binding End}" Format="yyyy-MM-dd"/>
+            </StackLayout>
+            
+            <!-- Description 2/0, span: 2-->
+                <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Label Text="Beschreibung"></Label>
+                    <Entry Text="{Binding Description}"/>
+                </StackLayout>
+            
+            <!-- Number plate 3/0-->
+                <StackLayout Grid.Row="3" Grid.Column="0">
+                    <Label Text="Kennzeichen" />
+                    <Entry Text="{Binding NumberPlate}" />
+                    
+                </StackLayout>
+
+
+                <!-- StartKM 5/0-->
+                <StackLayout Grid.Row="4" Grid.Column="0">
+                    <Label Text="Start KM" />
+                    <Entry Text="{Binding StartKM}" />
+                </StackLayout>
+
+                <!-- EndKM 6/0-->
+                <StackLayout Grid.Row="4" Grid.Column="1">
+                    <Label Text="End KM" />
+                    <Entry Text="{Binding EndKM}" />
+                </StackLayout>
+
+                <!-- From 7/0-->
+                <StackLayout Grid.Row="5" Grid.Column="0">
+                    <Label Text="From" />
+                    <Entry Text="{Binding From}" />
+                </StackLayout>
+
+                <!-- To 8/0-->
+                <StackLayout Grid.Row="5" Grid.Column="1">
+                    <Label Text="To" />
+                    <Entry Text="{Binding To}" />
+                </StackLayout>
+
+                <Button Grid.Row="6" Grid.ColumnSpan="2" Command="{Binding AddCommand}" Text="Fahrt speichern">
+
+                </Button>
+
+            </Grid>
+       
     </Grid>
+    </ScrollView>
 
 </ContentPage>

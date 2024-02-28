@@ -20,6 +20,30 @@ namespace Logbook.LogBookApp.ViewModel
         [ObservableProperty]
         ObservableCollection<Lib.Entry> _entries = [];
 
+        [ObservableProperty]
+        DateTime _start = DateTime.Now;
+
+        [ObservableProperty]
+        DateTime _end = DateTime.Now;
+
+        [ObservableProperty]
+        string _description = string.Empty;
+
+        [ObservableProperty]
+        string _numberPlate = string.Empty;
+
+        [ObservableProperty]
+        int _startKM = 0;
+
+        [ObservableProperty]
+        int _endKM = 0;
+
+        [ObservableProperty]
+        string _from = string.Empty;
+
+        [ObservableProperty]
+        string _to = string.Empty;
+
         [RelayCommand]
         void LoadData()
         {
@@ -44,6 +68,7 @@ namespace Logbook.LogBookApp.ViewModel
         [RelayCommand]
         void Add()
         {
+            /*
             Lib.Entry entrySaalfelden = new(DateTime.Now.AddDays(3),
                                   DateTime.Now.AddDays(3).AddMinutes(20),
                                   25500,
@@ -54,11 +79,23 @@ namespace Logbook.LogBookApp.ViewModel
             {
                 Description = "Fahrt nach Saalfelden"
             };
+            */
+            Lib.Entry entry = new(this.Start, this.End, this.StartKM, this.EndKM, this.NumberPlate, this.From, this.To);
 
-            var result = _repository.Add(entrySaalfelden);
+            if (this.Description.Length > 0)
+            {
+                entry.Description = this.Description;
+            }
+
+            var result = _repository.Add(entry);
             if(result == true)
             {
-                this.Entries.Add(entrySaalfelden);
+                this.Entries.Add(entry);
+                this.Description = string.Empty;
+                this.From = "";
+                this.To = "";
+                this.StartKM = this.EndKM;
+                this.EndKM = 0;
             }
 
         }
