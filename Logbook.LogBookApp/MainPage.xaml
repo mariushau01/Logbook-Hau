@@ -14,7 +14,7 @@
 
     <ScrollView> 
     <!-- erstes Grid Hauptgrid-->
-    <Grid RowDefinitions="180,Auto, Auto" Margin="10">
+    <Grid RowDefinitions="180,Auto, Auto" ColumnDefinitions="*,*" Margin="10">
         <!--
 <Label Text="{Binding Header}" FontSize="Subtitle"/>
          -->
@@ -28,7 +28,10 @@
                 <Label FontSize="Caption" FontAttributes="Bold" Grid.Column="3" Text="Nach" Padding="5"/>
             </Grid>
             <!-- Data-->
-            <CollectionView Grid.Row="1" ItemsSource="{Binding Entries}">
+            <CollectionView Grid.Row="1"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedEntry}"
+                            ItemsSource="{Binding Entries}">
                 <CollectionView.EmptyView>
                     <Label Padding="10" Text="Es wurd keine Fahrt Hinzugefütgt"/>
                 </CollectionView.EmptyView>
@@ -45,8 +48,10 @@
             </CollectionView>
         </Grid>
 
-            <Button Grid.Row="1" Text="Add Demo" Command="{Binding AddCommand}"/>
-            <!-- Eingabe -->
+            
+        <Button Grid.Row="1" Text="Add Demo" Command="{Binding AddCommand}"/>
+        
+        <!-- Eingabe -->
         <Grid Padding="10" ColumnSpacing="10" ColumnDefinitions="*,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" RowSpacing="20" Grid.Row="2">
             <!-- header 0/0, span: 2-->
             <Label Text="Fahrt hinzufügen" FontSize="Subtitle"
@@ -107,6 +112,10 @@
 
             </Grid>
        
+        
+        <!-- DETAILS-->
+        
+        
     </Grid>
     </ScrollView>
 

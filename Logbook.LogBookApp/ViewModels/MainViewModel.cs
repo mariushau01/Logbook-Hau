@@ -21,12 +21,16 @@ namespace Logbook.LogBookApp.ViewModel
         ObservableCollection<Lib.Entry> _entries = [];
 
         [ObservableProperty]
+        Lib.Entry _selectedEntry = null;
+
+        [ObservableProperty]
         DateTime _start = DateTime.Now;
 
         [ObservableProperty]
         DateTime _end = DateTime.Now;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddCommand))]
         string _description = string.Empty;
 
         [ObservableProperty]
@@ -65,7 +69,9 @@ namespace Logbook.LogBookApp.ViewModel
             }
         }
 
-        [RelayCommand]
+        private bool CanAdd => this.Description.Length > 0;
+
+        [RelayCommand(CanExecute = nameof(CanAdd))]
         void Add()
         {
             /*
