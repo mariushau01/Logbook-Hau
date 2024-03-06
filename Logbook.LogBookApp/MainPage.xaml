@@ -122,12 +122,20 @@
             </Grid>
        
         
-        <!-- DETAILS-->
-            <Grid Padding="10" IsVisible="{Binding SelectedEntry}">
-                
+        <!-- DETAILS-->  
+            <Grid Padding="10" Grid.RowSpan="3" Grid.Column="1" IsVisible="{Binding SelectedEntry, Converter={StaticResource IsNullConverter}}">
+                <Label FontAttributes="Bold" HorizontalOptions="Center" Text="nicht" />
             </Grid>
-                 
-    </Grid>
+            <Grid Padding="10" Grid.RowSpan="3" Grid.Column="1" IsVisible="{Binding SelectedEntry, Converter={StaticResource IsNotNullConverter}}">
+                <Label FontAttributes="Bold" HorizontalOptions="Center" Text="da"/>
+
+                <StackLayout>
+                    <Label FontSize="Large" TextColor="{StaticResource Primary}" Text="{Binding SelectedEntry.Description}"/>
+
+                </StackLayout>
+            </Grid>
+
+        </Grid>
     </ScrollView>
 
 </ContentPage>
