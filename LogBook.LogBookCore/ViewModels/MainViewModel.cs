@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Logbook.Lib;
+using LogBook.LogBookCore.Messages;
+using LogBook.LogBookCore.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,15 +11,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logbook.LogBookApp.ViewModel
+namespace Logbook.LogBookCore.ViewModel
 {
-    public partial class MainViewModel(IRepository repository) : ObservableObject
+    public partial class MainViewModel(IRepository repository, IAlertService alertService) : ObservableObject
     {
+       
         public string Header => "Fahrtenbuch";
 
         IRepository _repository = repository;
+        IAlertService _alertService = alertService;
 
         // nichts anderes wie eine Liste, mit einem zusätzlichen Feature, welches die Oberfläche informiert
+
         [ObservableProperty]
         ObservableCollection<Lib.Entry> _entries = [];
 
@@ -49,25 +55,34 @@ namespace Logbook.LogBookApp.ViewModel
         string _to = string.Empty;
 
         [RelayCommand]
-        void LoadData()
+        void Delete(Lib.Entry entry)
         {
-            try
-            {
-                var entries = _repository.GetAll();
+            Lib.Entry entryToDelete = _repository.find(entry.Id);
 
-                if (entries != null)
+            if (entryToDelete != null)
+            {
+                var res = _repository.Delete(entryToDelete);
+
+                if (res)
                 {
-                    foreach (var entry in entries)
-                    {
-                        Entries.Add(entry);
-                    }
+                    this.SelectedEntry = null;
+                    this.Entries.Remove(entry);
+                    _alertService.ShowAlert("Erfolg", "Der Eintrag wurde gelöscht");
+                }
+                else
+                {
+                    // alert not possible to delete from repository
+                    _alertService.ShowAlert("Fehler", "Der Eintrag konnte nicht gelöscht werden");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.Message);
+                // alert entrý not found
+                _alertService.ShowAlert("Fehler", "Der Eintrag konnte nicht gefunden werden");
             }
         }
+
+        
 
         private bool CanAdd => this.Description.Length > 0;
 
@@ -102,6 +117,8 @@ namespace Logbook.LogBookApp.ViewModel
                 this.To = "";
                 this.StartKM = this.EndKM;
                 this.EndKM = 0;
+
+                WeakReferenceMessenger.Default.Send(new AddMessage(entry));
             }
 
         }
